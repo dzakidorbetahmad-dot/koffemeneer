@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091812">
+  <meta name="description" content="KOFFIE MENEER — kopi, suasana hangat, dan pemandangan pegunungan Ciasihan, Bogor. Mampir untuk secangkir yang menenangkan.">
+  <title>KOFFIE MENEER — Coffee & Mountain View</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --forest: #091812;
+      --forest-soft: #0e241b;
+      --forest-card: #102c21;
+      --green: #14533c;
+      --green-light: #28694e;
+      --gold: #d4af37;
+      --gold-soft: #e3c96f;
+      --cream: #f5f2eb;
+      --muted: #b8c4be;
+      --line: rgba(245, 242, 235, .17);
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "Plus Jakarta Sans", Arial, sans-serif;
+      --page-pad: clamp(22px, 6vw, 88px);
+      --content-width: 1320px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      background: var(--forest);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body, button, a { font-family: var(--sans); }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; }
+    img, svg, video { display: block; max-width: 100%; }
+    ::selection { color: var(--forest); background: var(--gold); }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 10000;
+      padding: 10px 14px;
+      transform: translateY(-160%);
+      border-radius: 5px;
+      background: var(--cream);
+      color: var(--forest);
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display: grid;
+      place-items: center;
+      background: var(--forest);
+      transition: opacity .65s ease, visibility .65s ease;
+    }
+    .preloader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .preloader-inner { display: grid; justify-items: center; gap: 17px; }
+    .preloader-logo {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px rgba(212,175,55,.34), 0 0 50px rgba(212,175,55,.11);
+      animation: breathe 1.7s ease-in-out infinite;
+    }
+    .preloader-name {
+      margin: 0;
+      color: var(--cream);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .32em;
+    }
+    .preloader-line {
+      width: 82px;
+      height: 1px;
+      overflow: hidden;
+      background: rgba(245,242,235,.2);
+    }
+    .preloader-line::after {
+      display: block;
+      width: 45%;
+      height: 100%;
+      content: "";
+      background: var(--gold);
+      animation: loading 1.15s ease-in-out infinite;
+    }
+    @keyframes loading { from { transform: translateX(-110%); } to { transform: translateX(240%); } }
+    @keyframes breathe { 50% { transform: scale(.96); box-shadow: 0 0 0 1px rgba(212,175,55,.5), 0 0 60px rgba(212,175,55,.2); } }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1000;
+      padding: 17px var(--page-pad);
+      transition: padding .25s ease, background .25s ease, border-color .25s ease;
+      border-bottom: 1px solid transparent;
+    }
+    .site-header.is-scrolled {
+      padding-top: 11px;
+      padding-bottom: 11px;
+      border-color: rgba(245,242,235,.09);
+      background: rgba(9,24,18,.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .nav-inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      width: min(100%, var(--content-width));
+      margin: 0 auto;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      width: fit-content;
+    }
+    .brand img {
+      width: 43px;
+      height: 43px;
+      object-fit: contain;
+      border: 1px solid rgba(212,175,55,.42);
+      border-radius: 50%;
+      background: var(--green);
+    }
+    .brand-copy { display: grid; gap: 1px; line-height: 1.1; }
+    .brand-copy strong { font-size: 11px; letter-spacing: .2em; }
+    .brand-copy small { color: var(--gold-soft); font-size: 8px; letter-spacing: .23em; }
+    .nav-links { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 36px); }
+    .nav-links a {
+      position: relative;
+      color: rgba(245,242,235,.82);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: color .2s ease;
+    }
+    .nav-links a::after {
+      position: absolute;
+      right: 0;
+      bottom: -7px;
+      left: 0;
+      height: 1px;
+      transform: scaleX(0);
+      transform-origin: right;
+      content: "";
+      background: var(--gold);
+      transition: transform .25s ease;
+    }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--gold-soft); }
+    .nav-links a:hover::after, .nav-links a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+    .nav-action { justify-self: end; }
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 23px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      transition: transform .25s ease, background .25s ease, border-color .25s ease, color .25s ease, box-shadow .25s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-gold {
+      background: var(--gold);
+      color: #18231a;
+      box-shadow: 0 8px 24px rgba(212,175,55,.12);
+    }
+    .button-gold:hover { background: var(--gold-soft); box-shadow: 0 11px 30px rgba(212,175,55,.2); }
+    .button-ghost {
+      border-color: rgba(245,242,235,.45);
+      background: rgba(9,24,18,.34);
+      backdrop-filter: blur(6px);
+      color: var(--cream);
+    }
+    .button-ghost:hover { border-color: var(--gold); color: var(--gold-soft); }
+    .button svg { width: 15px; height: 15px; }
+    .menu-toggle {
+      display: none;
+      width: 43px;
+      height: 43px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(9,24,18,.3);
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 18px;
+      height: 1px;
+      margin: 5px auto;
+      background: var(--cream);
+      transition: transform .2s ease;
+    }
+    .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(3px) rotate(45deg); }
+    .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-3px) rotate(-45deg); }
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% - 1px);
+      right: var(--page-pad);
+      left: var(--page-pad);
+      padding: 14px;
+      border: 1px solid rgba(245,242,235,.12);
+      border-radius: 18px;
+      background: rgba(9,24,18,.96);
+      box-shadow: 0 20px 45px rgba(0,0,0,.32);
+      backdrop-filter: blur(18px);
+    }
+    .mobile-menu.is-open { display: grid; }
+    .mobile-menu a {
+      padding: 12px;
+      border-bottom: 1px solid rgba(245,242,235,.09);
+      color: var(--cream);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .mobile-menu a:last-child { border: 0; color: var(--gold-soft); }
+
+    .hero {
+      position: relative;
+      display: flex;
+      min-height: min(850px, 100svh);
+      min-height: max(700px, min(850px, 100svh));
+      align-items: center;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 130px var(--page-pad) 96px;
+      background:
+        radial-gradient(ellipse at 78% 27%, rgba(38,105,78,.38), transparent 38%),
+        linear-gradient(135deg, #10261c 0%, #091812 55%, #07110d 100%);
+    }
+    .hero::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      content: "";
+      background:
+        linear-gradient(90deg, rgba(7,16,12,.82) 0%, rgba(7,16,12,.52) 48%, rgba(7,16,12,.18) 100%),
+        linear-gradient(0deg, rgba(7,16,12,.72) 0%, transparent 40%, rgba(7,16,12,.22) 100%);
+    }
+    .hero-video {
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 45%;
+      opacity: .84;
+      filter: contrast(1.04) saturate(.92);
+      transition: opacity .5s ease;
+    }
+    .hero.video-unavailable .hero-video {
+      display: none;
+    }
+    .hero-art {
+      position: absolute;
+      z-index: -1;
+      right: max(-65px, calc((100vw - 1530px) / 2));
+      bottom: -7%;
+      width: min(66vw, 880px);
+      min-width: 490px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .5s ease;
+    }
+    .hero.video-unavailable .hero-art {
+      opacity: .65;
+    }
+    .hero-art svg { width: 100%; height: auto; }
+    .hero-content {
+      position: relative;
+      width: min(100%, var(--content-width));
+      margin: 0 auto;
+    }
+    .hero-copy { max-width: 740px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold-soft);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .21em;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 27px; height: 1px; content: ""; background: var(--gold); }
+    .hero h1 {
+      max-width: 760px;
+      margin: 20px 0 17px;
+      font-family: var(--serif);
+      font-size: clamp(66px, 10vw, 142px);
+      font-weight: 400;
+      letter-spacing: -.055em;
+      line-height: .82;
+      text-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+    }
+    .hero h1 em { display: block; padding-left: clamp(30px, 8vw, 120px); color: var(--gold-soft); font-weight: 400; }
+    .hero-description {
+      max-width: 440px;
+      margin: 28px 0 31px;
+      color: rgba(245,242,235,.9);
+      font-size: clamp(13px, 1.2vw, 15px);
+      line-height: 1.9;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, .4);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-note {
+      position: absolute;
+      right: 0;
+      bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(245,242,235,.78);
+      font-size: 9px;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+    .hero-note::before { width: 1px; height: 55px; content: ""; background: var(--gold); }
+    .hero-coordinates {
+      position: absolute;
+      right: var(--page-pad);
+      bottom: 39px;
+      color: rgba(245,242,235,.72);
+      font-size: 9px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .hero-coordinates strong { color: var(--cream); font-weight: 500; }
+    .scroll-cue {
+      position: absolute;
+      bottom: 37px;
+      left: var(--page-pad);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(245,242,235,.76);
+      font-size: 8px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .scroll-cue span { display: block; width: 48px; height: 1px; background: var(--gold); }
+
+    .marquee {
+      overflow: hidden;
+      border-top: 1px solid rgba(212,175,55,.34);
+      border-bottom: 1px solid rgba(212,175,55,.34);
+      background: var(--green);
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 38s linear infinite;
+    }
+    .marquee-group {
+      display: flex;
+      flex: none;
+      align-items: center;
+      gap: 27px;
+      padding: 15px 14px;
+      color: var(--cream);
+      font-family: var(--serif);
+      font-size: 18px;
+      font-style: italic;
+      white-space: nowrap;
+    }
+    .marquee-group i { color: var(--gold); font-size: 13px; font-style: normal; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    .section {
+      position: relative;
+      padding: clamp(88px, 11vw, 155px) var(--page-pad);
+    }
+    .section-inner { width: min(100%, var(--content-width)); margin: 0 auto; }
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 17px;
+      color: var(--gold-soft);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .section-label span { width: 26px; height: 1px; background: var(--gold); }
+    .section-heading {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(48px, 6.4vw, 88px);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: .94;
+    }
+    .section-heading em { color: var(--gold-soft); font-weight: 400; }
+    .section-intro { max-width: 540px; color: var(--muted); line-height: 1.9; }
+
+    .story-section { overflow: hidden; background: var(--forest-soft); }
+    .story-section::after {
+      position: absolute;
+      top: 5%;
+      right: -90px;
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(212,175,55,.08);
+      border-radius: 50%;
+      box-shadow: 0 0 0 38px rgba(212,175,55,.02), 0 0 0 78px rgba(212,175,55,.015);
+      content: "";
+      pointer-events: none;
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, .92fr) minmax(320px, 1fr);
+      align-items: center;
+      gap: clamp(50px, 9vw, 138px);
+    }
+    .story-art {
+      position: relative;
+      min-height: 570px;
+      overflow: hidden;
+      border: 1px solid rgba(212,175,55,.34);
+      border-radius: 48% 48% 5px 5px;
+      background: var(--green);
+    }
+    .story-art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .story-caption {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      left: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      padding: 16px 18px;
+      border: 1px solid rgba(245,242,235,.22);
+      border-radius: 12px;
+      background: rgba(9,24,18,.76);
+      backdrop-filter: blur(8px);
+    }
+    .story-caption strong { display: block; font-family: var(--serif); font-size: 24px; font-weight: 400; }
+    .story-caption span { color: var(--muted); font-size: 8px; letter-spacing: .16em; text-transform: uppercase; }
+    .story-caption .caption-mark { color: var(--gold); font-family: var(--serif); font-size: 34px; line-height: 1; }
+    .story-copy { position: relative; z-index: 1; }
+    .story-copy .section-heading { max-width: 570px; margin-bottom: 22px; }
+    .story-copy .section-intro {
+      position: relative;
+      max-width: 550px;
+      margin: 0;
+      font-size: 14px;
+    }
+    .story-copy .section-intro::first-letter {
+      float: left;
+      padding: 7px 10px 0 0;
+      color: var(--gold-soft);
+      font-family: var(--serif);
+      font-size: 74px;
+      line-height: .72;
+    }
+    .story-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      margin-top: 34px;
+      padding-top: 23px;
+      border-top: 1px solid var(--line);
+    }
+    .story-detail { display: grid; gap: 3px; }
+    .story-detail strong { color: var(--cream); font-family: var(--serif); font-size: 26px; font-weight: 400; }
+    .story-detail span { color: var(--muted); font-size: 8px; letter-spacing: .15em; text-transform: uppercase; }
+
+    .menu-section { background: var(--forest); }
+    .menu-top {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 36px;
+    }
+    .menu-top .section-heading { max-width: 670px; }
+    .menu-intro { max-width: 270px; margin: 0 0 5px; color: var(--muted); font-size: 12px; }
+    .filter-list { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 0 28px; padding: 0; list-style: none; }
+    .filter-button {
+      min-height: 40px;
+      padding: 0 17px;
+      border: 1px solid rgba(245,242,235,.18);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: color .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .filter-button:hover { border-color: var(--gold); color: var(--cream); }
+    .filter-button[aria-pressed="true"] { border-color: var(--gold); background: var(--gold); color: var(--forest); }
+    .menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 38px; }
+    .menu-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 15px;
+      min-height: 105px;
+      padding: 19px 0;
+      border-top: 1px solid var(--line);
+      transition: border-color .2s ease, transform .25s ease;
+    }
+    .menu-item:hover { border-color: rgba(212,175,55,.55); transform: translateX(3px); }
+    .menu-item-main { min-width: 0; }
+    .menu-item-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .menu-item-category { color: var(--gold-soft); font-size: 8px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .menu-item-tag { padding: 1px 6px; border: 1px solid rgba(245,242,235,.16); border-radius: 99px; color: var(--muted); font-size: 7px; letter-spacing: .09em; text-transform: uppercase; }
+    .menu-item h3 { overflow: hidden; margin: 0; color: var(--cream); font-family: var(--serif); font-size: clamp(22px, 2.3vw, 29px); font-weight: 500; line-height: 1.15; text-overflow: ellipsis; white-space: nowrap; }
+    .menu-item-price { color: var(--muted); font-size: 9px; letter-spacing: .04em; }
+    .menu-order {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 11px;
+      border: 1px solid rgba(212,175,55,.42);
+      border-radius: 999px;
+      color: var(--gold-soft);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: background .2s ease, color .2s ease;
+    }
+    .menu-order:hover { background: var(--gold); color: var(--forest); }
+    .menu-order span { font-size: 14px; line-height: 1; }
+    .menu-footnote { margin: 28px 0 0; color: rgba(184,196,190,.68); font-size: 9px; }
+    noscript p { color: var(--gold-soft); }
+
+    .signature-section { overflow: hidden; background: var(--forest-soft); }
+    .signature-heading-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 52px;
+    }
+    .signature-heading-row .section-heading { max-width: 700px; }
+    .signature-heading-row p { max-width: 250px; margin: 0 0 8px; color: var(--muted); font-size: 12px; }
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: clamp(38px, 8vw, 115px);
+      padding: 30px 0;
+      border-top: 1px solid var(--line);
+    }
+    .feature-row:last-of-type { border-bottom: 1px solid var(--line); }
+    .feature-row.is-reversed .feature-visual { order: -1; }
+    .feature-copy { max-width: 490px; }
+    .feature-index { display: block; margin-bottom: 17px; color: var(--gold-soft); font-size: 9px; font-weight: 700; letter-spacing: .21em; text-transform: uppercase; }
+    .feature-copy h3 { margin: 0 0 12px; font-family: var(--serif); font-size: clamp(39px, 5vw, 65px); font-weight: 400; letter-spacing: -.035em; line-height: .98; }
+    .feature-copy h3 em { color: var(--gold-soft); font-weight: 400; }
+    .feature-copy p { max-width: 420px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.9; }
+    .feature-visual {
+      position: relative;
+      display: grid;
+      min-height: 390px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(212,175,55,.23);
+      border-radius: 5px 95px 5px 95px;
+      background:
+        radial-gradient(circle at 70% 28%, rgba(212,175,55,.18), transparent 30%),
+        linear-gradient(145deg, #173d2c, #0a1b13);
+    }
+    .feature-row.is-reversed .feature-visual { border-radius: 95px 5px 95px 5px; }
+    .feature-visual::before, .feature-visual::after {
+      position: absolute;
+      width: 270px;
+      height: 270px;
+      border: 1px solid rgba(245,242,235,.09);
+      border-radius: 50%;
+      content: "";
+    }
+    .feature-visual::after { width: 360px; height: 360px; }
+    .feature-visual svg { position: relative; z-index: 1; width: 78%; max-width: 410px; }
+    .visual-caption {
+      position: absolute;
+      right: 21px;
+      bottom: 19px;
+      z-index: 2;
+      color: rgba(245,242,235,.65);
+      font-size: 8px;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+    .quote-panel {
+      position: relative;
+      margin-top: clamp(75px, 10vw, 135px);
+      padding: clamp(45px, 8vw, 95px) 24px;
+      border-top: 1px solid rgba(212,175,55,.34);
+      border-bottom: 1px solid rgba(212,175,55,.34);
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 100%, rgba(20,83,60,.5), transparent 58%),
+        transparent;
+    }
+    .quote-mark { color: var(--gold); font-family: var(--serif); font-size: 48px; line-height: .6; }
+    .quote-panel blockquote {
+      max-width: 920px;
+      margin: 20px auto 25px;
+      font-family: var(--serif);
+      font-size: clamp(43px, 7.3vw, 96px);
+      font-weight: 400;
+      letter-spacing: -.035em;
+      line-height: .98;
+    }
+    .quote-panel blockquote em { color: var(--gold-soft); }
+    .ambience-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .ambience-tags span {
+      padding: 8px 13px;
+      border: 1px solid rgba(245,242,235,.2);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: .14em;
+    }
+
+    .visit-section { background: var(--forest); }
+    .visit-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, .85fr) minmax(0, 1.15fr);
+      align-items: center;
+      gap: clamp(48px, 8vw, 112px);
+    }
+    .visit-copy .section-heading { max-width: 490px; margin-bottom: 26px; }
+    .visit-copy .section-heading em { display: block; }
+    .visit-lead { max-width: 420px; margin: 0 0 28px; color: var(--muted); font-size: 13px; }
+    .visit-details { display: grid; gap: 17px; margin: 0 0 31px; }
+    .visit-detail { display: grid; grid-template-columns: 30px 1fr; gap: 12px; }
+    .visit-icon {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border: 1px solid rgba(212,175,55,.42);
+      border-radius: 50%;
+      color: var(--gold-soft);
+      font-size: 12px;
+    }
+    .visit-detail strong { display: block; margin: 0 0 2px; color: var(--cream); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
+    .visit-detail span, .visit-detail a { color: var(--muted); font-size: 11px; }
+    .visit-detail a:hover { color: var(--gold-soft); }
+    .map-frame {
+      position: relative;
+      min-height: 450px;
+      overflow: hidden;
+      border: 1px solid rgba(212,175,55,.3);
+      border-radius: 8px 72px 8px 8px;
+      background: #11281e;
+      box-shadow: 0 24px 65px rgba(0,0,0,.22);
+    }
+    .map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: grayscale(.7) sepia(.12) hue-rotate(65deg) saturate(.75) brightness(.83); }
+    .map-caption {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      z-index: 1;
+      padding: 10px 14px;
+      border: 1px solid rgba(245,242,235,.18);
+      border-radius: 5px;
+      background: rgba(9,24,18,.88);
+      color: var(--cream);
+      font-size: 8px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .site-footer { padding: 32px var(--page-pad); border-top: 1px solid var(--line); background: #07120d; }
+    .footer-inner {
+      display: flex;
+      width: min(100%, var(--content-width));
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 0 auto;
+    }
+    .footer-brand img { width: 39px; height: 39px; }
+    .footer-note { color: var(--muted); font-size: 9px; }
+    .footer-social { color: var(--gold-soft); font-size: 9px; letter-spacing: .1em; }
+    .footer-social:hover { color: var(--cream); }
+
+    .floating-wa {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 900;
+      display: inline-flex;
+      min-height: 51px;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px 0 15px;
+      border: 1px solid rgba(245,242,235,.3);
+      border-radius: 999px;
+      background: #14533c;
+      color: var(--cream);
+      box-shadow: 0 12px 32px rgba(0,0,0,.34);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .floating-wa:hover { transform: translateY(-3px); background: #1a684b; }
+    .floating-wa svg { width: 20px; height: 20px; color: var(--gold-soft); }
+
+    .reveal { opacity: 0; transform: translateY(25px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+
+    @media (min-width: 1500px) {
+      :root { --page-pad: max(88px, calc((100vw - 1320px) / 2)); }
+    }
+    @media (max-width: 980px) {
+      .nav-inner { grid-template-columns: 1fr auto; }
+      .nav-links { display: none; }
+      .nav-action { display: none; }
+      .menu-toggle { display: block; justify-self: end; }
+      .story-grid { gap: 52px; }
+      .story-art { min-height: 500px; }
+      .visit-grid { gap: 42px; }
+      .feature-visual { min-height: 330px; }
+    }
+    @media (max-width: 680px) {
+      :root { --page-pad: 22px; }
+      html { scroll-padding-top: 75px; }
+      .site-header { padding-top: 12px; padding-bottom: 12px; }
+      .site-header.is-scrolled { padding-top: 9px; padding-bottom: 9px; }
+      .brand img { width: 39px; height: 39px; }
+      .brand-copy strong { font-size: 10px; }
+      .hero {
+        min-height: 760px;
+        min-height: max(710px, 100svh);
+        align-items: center;
+        padding-top: 125px;
+        padding-bottom: 110px;
+      }
+      .hero::before {
+        background:
+          linear-gradient(180deg, rgba(7,16,12,.45) 0%, rgba(7,16,12,.38) 45%, rgba(7,16,12,.85) 100%);
+      }
+      .hero-video { opacity: .9; }
+      .hero-art { right: -145px; bottom: 8%; width: 670px; min-width: 0; }
+      .hero.video-unavailable .hero-art { opacity: .38; }
+      .hero h1 { margin-top: 18px; font-size: clamp(59px, 15vw, 94px); }
+      .hero h1 em { padding-left: 28px; }
+      .hero-description { max-width: 350px; margin-top: 22px; font-size: 12px; }
+      .hero-actions { gap: 9px; }
+      .button { min-height: 45px; padding: 0 17px; font-size: 8px; }
+      .hero-note { display: none; }
+      .hero-coordinates { right: 22px; bottom: 22px; font-size: 7px; }
+      .scroll-cue { bottom: 25px; left: 22px; font-size: 7px; }
+      .scroll-cue span { width: 25px; }
+      .marquee-group { gap: 18px; padding: 12px; font-size: 16px; }
+      .section { padding-top: 82px; padding-bottom: 82px; }
+      .story-grid { grid-template-columns: 1fr; gap: 38px; }
+      .story-art { min-height: 430px; max-height: 540px; }
+      .story-copy .section-heading { font-size: clamp(52px, 13vw, 74px); }
+      .story-copy .section-intro { font-size: 12px; }
+      .story-details { gap: 22px; }
+      .story-detail strong { font-size: 23px; }
+      .menu-top, .signature-heading-row { display: block; }
+      .menu-top .section-heading, .signature-heading-row .section-heading { font-size: clamp(55px, 14vw, 76px); }
+      .menu-intro, .signature-heading-row p { max-width: 360px; margin-top: 17px; font-size: 11px; }
+      .filter-list { flex-wrap: nowrap; overflow-x: auto; margin-right: calc(-1 * var(--page-pad)); padding-right: var(--page-pad); padding-bottom: 5px; scrollbar-width: none; }
+      .filter-list::-webkit-scrollbar { display: none; }
+      .filter-button { flex: none; min-height: 37px; padding: 0 13px; font-size: 8px; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .menu-item { min-height: 91px; }
+      .menu-item h3 { font-size: 25px; }
+      .feature-row, .feature-row.is-reversed { grid-template-columns: 1fr; gap: 21px; padding: 27px 0; }
+      .feature-row.is-reversed .feature-visual { order: 0; }
+      .feature-copy h3 { font-size: 51px; }
+      .feature-copy p { font-size: 11px; }
+      .feature-visual { min-height: 290px; border-radius: 4px 58px 4px 58px; }
+      .feature-row.is-reversed .feature-visual { border-radius: 58px 4px 58px 4px; }
+      .quote-panel { margin-top: 76px; padding: 61px 7px; }
+      .quote-panel blockquote { font-size: clamp(45px, 12vw, 68px); }
+      .ambience-tags { gap: 6px; }
+      .ambience-tags span { padding: 7px 9px; font-size: 6px; }
+      .visit-grid { grid-template-columns: 1fr; gap: 36px; }
+      .visit-copy .section-heading { font-size: clamp(55px, 13vw, 74px); }
+      .map-frame { min-height: 350px; border-radius: 5px 52px 5px 5px; }
+      .footer-inner { flex-wrap: wrap; }
+      .footer-note { order: 3; width: 100%; }
+      .floating-wa { right: 15px; bottom: 15px; min-height: 47px; padding: 0 15px; font-size: 8px; }
+    }
+    @media (max-width: 390px) {
+      .brand-copy strong { letter-spacing: .14em; }
+      .hero-actions { align-items: flex-start; flex-direction: column; }
+      .menu-item { grid-template-columns: minmax(0,1fr) auto; gap: 7px; }
+      .menu-order { padding: 8px; font-size: 7px; }
+      .menu-item h3 { font-size: 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+  <div class="preloader" id="preloader" aria-label="Memuat Koffie Meneer">
+    <div class="preloader-inner">
+      <img class="preloader-logo" src="logo.png" alt="">
+      <p class="preloader-name">KOFFIE MENEER</p>
+      <span class="preloader-line" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner">
+      <a class="brand" href="#home" aria-label="Koffie Meneer, ke halaman utama">
+        <img src="logo.png" alt="Logo Koffie Meneer">
+        <span class="brand-copy">
+          <strong>KOFFIE MENEER</strong>
+          <small>ESTD. 2025</small>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="#home">Home</a>
+        <a href="#story">Our Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#signature">Signature</a>
+        <a href="#visit">Visit</a>
+      </nav>
+
+      <a class="button button-gold nav-action" href="https://wa.me/6285810033215?text=Halo%20Koffie%20Meneer%2C%20saya%20ingin%20bertanya%20tentang%20menu%20dan%20reservasi." target="_blank" rel="noopener noreferrer">
+        Pesan via WA <span aria-hidden="true">↗</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Navigasi seluler">
+      <a href="#home">Home</a>
+      <a href="#story">Our Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#signature">Signature</a>
+      <a href="#visit">Visit Us</a>
+      <a href="https://wa.me/6285810033215?text=Halo%20Koffie%20Meneer%2C%20saya%20ingin%20bertanya%20tentang%20menu%20dan%20reservasi." target="_blank" rel="noopener noreferrer">Pesan via WhatsApp ↗</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="home" aria-labelledby="heroTitle">
+      <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="WhatsApp Video 2026-11-18 at 12.26.41.mp4" type="video/mp4">
+        <source src="WhatsApp Video 2026-11-18 at 12.26.41.mp4" type="video/mp4">
+      </video>
+
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 900 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="616" cy="224" r="110" fill="#D4AF37" fill-opacity=".34"/>
+          <circle cx="616" cy="224" r="142" stroke="#E3C96F" stroke-opacity=".43"/>
+          <path d="M0 428C125 356 236 373 335 421C449 477 517 462 630 386C722 324 818 329 900 377V620H0V428Z" fill="#14533C" fill-opacity=".78"/>
+          <path d="M0 483C128 416 256 435 371 486C487 537 610 514 717 446C784 404 845 400 900 419V620H0V483Z" fill="#0E241B"/>
+          <path d="M0 529C114 486 233 493 342 535C456 579 598 574 719 515C788 482 847 474 900 488" stroke="#D4AF37" stroke-opacity=".48" stroke-width="2"/>
+          <path d="M214 397C257 365 299 336 349 325M276 430C312 394 349 367 391 356M721 379C764 353 804 345 851 351" stroke="#F5F2EB" stroke-opacity=".27" stroke-width="2"/>
+          <path d="M719 0V101M772 0V82M825 0V105" stroke="#E3C96F" stroke-opacity=".52"/>
+          <circle cx="719" cy="107" r="8" fill="#E3C96F" fill-opacity=".92"/>
+          <circle cx="772" cy="88" r="7" fill="#E3C96F" fill-opacity=".75"/>
+          <circle cx="825" cy="111" r="8" fill="#E3C96F" fill-opacity=".8"/>
+          <path d="M110 188C149 136 192 125 245 130M151 209C193 161 231 151 274 157" stroke="#E3C96F" stroke-opacity=".55" stroke-width="1.5"/>
+          <circle cx="247" cy="130" r="3" fill="#E3C96F"/>
+          <circle cx="274" cy="157" r="3" fill="#E3C96F"/>
+          <path d="M706 575C754 549 789 553 826 580M721 595C766 573 801 576 836 601" stroke="#F5F2EB" stroke-opacity=".22"/>
+        </svg>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-copy">
+          <span class="eyebrow">Coffee & mountain view · Ciasihan, Bogor</span>
+          <h1 id="heroTitle">A taste of <em>mountain</em> serenity.</h1>
+          <p class="hero-description">Secangkir kopi, udara pegunungan, dan waktu yang terasa lebih pelan. Temukan sudut nyamanmu di Koffie Meneer.</p>
+          <div class="hero-actions">
+            <a class="button button-gold" href="#menu">Lihat Menu <span aria-hidden="true">↓</span></a>
+            <a class="button button-ghost" href="https://wa.me/6285810033215?text=Halo%20Koffie%20Meneer%2C%20saya%20ingin%20bertanya%20tentang%20menu%20dan%20reservasi." target="_blank" rel="noopener noreferrer">
+              Chat WhatsApp
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 6.4 15.4A8 8 0 1 1 9 18.3L5 19Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.2 8.7c.5 2.2 2 3.8 4.2 4.6l1.1-1.1 2 .9c.2 1.1-.7 2.2-1.8 2.2-3.5 0-7.9-4.2-7.9-7.7 0-1.1 1.1-2 2.2-1.8l.9 2-1.1.9Z" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-note" aria-hidden="true">Find your quiet corner</div>
+      <div class="scroll-cue" aria-hidden="true"><span></span> Scroll to explore</div>
+      <div class="hero-coordinates"><strong>−6.6926° S</strong> &nbsp;·&nbsp; Ciasihan, West Java</div>
+    </section>
+
+    <div class="marquee" aria-label="Menu dan jam buka Koffie Meneer">
+      <div class="marquee-track">
+        <div class="marquee-group" aria-hidden="true">
+          <span>Kopi Susu Meneer</span><i>✳</i><span>Kopi Mistik Aren</span><i>✳</i><span>Tea Aero Green</span><i>✳</i><span>Sunset Mountain View</span><i>✳</i><span>Open Everyday 10:00 AM – 8:00 PM</span><i>✳</i>
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          <span>Kopi Susu Meneer</span><i>✳</i><span>Kopi Mistik Aren</span><i>✳</i><span>Tea Aero Green</span><i>✳</i><span>Sunset Mountain View</span><i>✳</i><span>Open Everyday 10:00 AM – 8:00 PM</span><i>✳</i>
+        </div>
+      </div>
+    </div>
+
+    <section class="section story-section" id="story" aria-labelledby="storyTitle">
+      <div class="section-inner story-grid">
+        <div class="story-art reveal" role="img" aria-label="Ilustrasi suasana senja, pegunungan, dan secangkir kopi di Ciasihan">
+          <svg viewBox="0 0 720 980" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="storySky" x1="360" y1="0" x2="360" y2="980" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#28694E"/>
+                <stop offset=".58" stop-color="#174630"/>
+                <stop offset="1" stop-color="#0E241B"/>
+              </linearGradient>
+              <linearGradient id="storySun" x1="250" y1="260" x2="489" y2="500" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#E3C96F"/>
+                <stop offset="1" stop-color="#D4AF37" stop-opacity=".12"/>
+              </linearGradient>
+            </defs>
+            <rect width="720" height="980" fill="url(#storySky)"/>
+            <circle cx="451" cy="348" r="127" fill="url(#storySun)" fill-opacity=".92"/>
+            <circle cx="451" cy="348" r="167" stroke="#F5F2EB" stroke-opacity=".2"/>
+            <path d="M0 529 130 394 235 491 364 341 520 493 617 388 720 485V980H0V529Z" fill="#102B20"/>
+            <path d="M0 580 134 478 245 543 387 430 525 547 641 458 720 516V980H0V580Z" fill="#14533C"/>
+            <path d="M0 653C146 598 243 610 337 658C454 718 573 686 720 615V980H0V653Z" fill="#0E241B"/>
+            <path d="M0 706C124 663 243 672 355 718C470 765 595 743 720 682" stroke="#D4AF37" stroke-opacity=".6" stroke-width="2"/>
+            <path d="M90 75C132 136 130 216 95 280M100 171C150 150 182 132 210 99M97 196C61 163 41 138 28 105M109 224C159 221 199 231 229 256M82 154C48 129 27 101 12 67" stroke="#E3C96F" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
+            <path d="M606 560C641 505 674 471 715 448M632 532C624 487 625 451 638 415M646 512C684 500 710 500 741 508" stroke="#F5F2EB" stroke-opacity=".42" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="560" cy="269" r="3" fill="#F5F2EB"/><circle cx="579" cy="238" r="2" fill="#F5F2EB"/><circle cx="324" cy="261" r="2" fill="#F5F2EB"/>
+            <ellipse cx="362" cy="821" rx="205" ry="34" fill="#07120D" fill-opacity=".75"/>
+            <path d="M252 733H459L437 824C434 841 420 851 403 851H309C291 851 278 840 275 823L252 733Z" fill="#F5F2EB" fill-opacity=".94"/>
+            <path d="M458 752C524 730 554 755 549 795C546 822 522 833 449 819" stroke="#F5F2EB" stroke-width="21" stroke-linecap="round"/>
+            <ellipse cx="355" cy="733" rx="103" ry="27" fill="#D8C9A7"/>
+            <ellipse cx="355" cy="728" rx="91" ry="19" fill="#70442E"/>
+            <ellipse cx="355" cy="725" rx="73" ry="12" fill="#BD8B5B"/>
+            <path d="M331 720C345 707 364 708 377 721M337 715C348 705 362 705 371 714" stroke="#F5F2EB" stroke-width="2" stroke-linecap="round"/>
+            <path d="M268 866H444" stroke="#D4AF37" stroke-opacity=".63"/>
+            <text x="360" y="913" text-anchor="middle" fill="#F5F2EB" fill-opacity=".76" font-family="Georgia,serif" font-size="18" letter-spacing="7">CIASIHAN · BOGOR</text>
+          </svg>
+          <div class="story-caption">
+            <div><strong>Take the scenic route.</strong><span>A little closer to the clouds</span></div>
+            <span class="caption-mark">✳</span>
+          </div>
+        </div>
+
+        <div class="story-copy reveal reveal-delay-1">
+          <div class="section-label"><span></span> Our story</div>
+          <h2 class="section-heading" id="storyTitle">Coffee tastes better <em>when time slows.</em></h2>
+          <p class="section-intro">Di Ciasihan, Bogor, kami percaya secangkir kopi paling nikmat saat ditemani udara sejuk dan pemandangan yang menenangkan. Koffie Meneer lahir sebagai tempat untuk berhenti sebentar dari ramainya hari—berbagi cerita, menikmati racikan sederhana, dan memandang gunung yang selalu punya cara untuk membuat kita tinggal sedikit lebih lama.</p>
+          <div class="story-details">
+            <div class="story-detail"><strong>10 AM — 8 PM</strong><span>Everyday, come as you are</span></div>
+            <div class="story-detail"><strong>Since 2025</strong><span>Made for slow moments</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section menu-section" id="menu" aria-labelledby="menuTitle">
+      <div class="section-inner">
+        <div class="menu-top reveal">
+          <div>
+            <div class="section-label"><span></span> Something for every mood</div>
+            <h2 class="section-heading" id="menuTitle">The Coffee Shop <em>Menu.</em></h2>
+          </div>
+          <p class="menu-intro">Dari kopi klasik sampai racikan yang menyegarkan, pilih teman untuk momen santaimu.</p>
+        </div>
+
+        <div class="filter-list reveal" role="group" aria-label="Filter kategori menu">
+          <button class="filter-button" type="button" data-filter="all" aria-pressed="true">Semua</button>
+          <button class="filter-button" type="button" data-filter="classic" aria-pressed="false">Classic Coffee</button>
+          <button class="filter-button" type="button" data-filter="kopi-mocktail" aria-pressed="false">Kopi Mocktail</button>
+          <button class="filter-button" type="button" data-filter="tea-mocktail" aria-pressed="false">Tea Mocktail</button>
+          <button class="filter-button" type="button" data-filter="snacks" aria-pressed="false">Snacks</button>
+        </div>
+
+        <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
+        <noscript><p>Aktifkan JavaScript di browser untuk melihat menu dan filter kategori.</p></noscript>
+        <p class="menu-footnote">Harga pada halaman ini merupakan placeholder dan dapat diperbarui sesuai daftar harga terbaru.</p>
+      </div>
+    </section>
+
+    <section class="section signature-section" id="signature" aria-labelledby="signatureTitle">
+      <div class="section-inner">
+        <div class="signature-heading-row reveal">
+          <div>
+            <div class="section-label"><span></span> A few good reasons to stay</div>
+            <h2 class="section-heading" id="signatureTitle">Made for the <em>long way home.</em></h2>
+          </div>
+          <p>Racikan yang akrab, sentuhan yang khas, dan suasana yang susah diburu-buru.</p>
+        </div>
+
+        <article class="feature-row">
+          <div class="feature-copy reveal">
+            <span class="feature-index">01 / Signature</span>
+            <h3>Kopi Susu <em>Meneer.</em></h3>
+            <p>Teman paling akrab untuk memulai obrolan. Kopi susu lembut dengan rasa yang seimbang, diracik untuk dinikmati pelan-pelan.</p>
+          </div>
+          <div class="feature-visual reveal reveal-delay-1" role="img" aria-label="Ilustrasi secangkir kopi susu khas Koffie Meneer">
+            <svg viewBox="0 0 520 330" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="260" cy="267" rx="164" ry="22" fill="#07120D" fill-opacity=".7"/>
+              <ellipse cx="258" cy="236" rx="153" ry="34" fill="#D4AF37" fill-opacity=".25" stroke="#E3C96F" stroke-opacity=".6"/>
+              <path d="M148 122H356L330 231C326 248 311 259 293 259H211C193 259 178 247 174 230L148 122Z" fill="#F5F2EB"/>
+              <path d="M354 145C421 124 448 146 442 185C437 216 411 227 339 207" stroke="#F5F2EB" stroke-width="18" stroke-linecap="round"/>
+              <ellipse cx="252" cy="122" rx="104" ry="28" fill="#D5C5A3"/>
+              <ellipse cx="252" cy="116" rx="91" ry="20" fill="#70442E"/>
+              <ellipse cx="252" cy="114" rx="76" ry="14" fill="#C28C58"/>
+              <path d="M221 112C238 94 264 96 282 115M229 105C243 93 263 93 275 105M239 99C249 92 260 93 267 100" stroke="#F5F2EB" stroke-width="3" stroke-linecap="round"/>
+              <path d="M185 165H337" stroke="#D8C9A7" stroke-width="2" stroke-opacity=".7"/>
+              <circle cx="115" cy="98" r="3" fill="#E3C96F"/><circle cx="411" cy="90" r="3" fill="#E3C96F"/><circle cx="391" cy="73" r="2" fill="#F5F2EB" fill-opacity=".7"/>
+            </svg>
+            <span class="visual-caption">A familiar kind of comfort</span>
+          </div>
+        </article>
+
+        <article class="feature-row is-reversed">
+          <div class="feature-copy reveal">
+            <span class="feature-index">02 / Refreshing</span>
+            <h3>Kopi Mistik <em>(Aren).</em></h3>
+            <p>Rasa kopi yang lembut bertemu manis alami gula aren. Pilihan sederhana dengan karakter yang membuatmu ingin kembali.</p>
+          </div>
+          <div class="feature-visual reveal reveal-delay-1" role="img" aria-label="Ilustrasi kopi gula aren dengan daun tropis">
+            <svg viewBox="0 0 520 330" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M82 232C105 175 109 109 91 55M91 122C132 113 159 92 176 61M93 158C60 136 42 108 34 79M103 188C142 183 177 190 207 214" stroke="#8DAB75" stroke-width="3" stroke-linecap="round"/>
+              <path d="M91 122C114 96 143 82 176 61C159 92 132 113 91 122ZM93 158C64 142 45 115 34 79C60 100 81 128 93 158ZM103 188C133 166 169 177 207 214C169 202 137 198 103 188Z" fill="#28694E" fill-opacity=".86" stroke="#8DAB75" stroke-width="1.4"/>
+              <ellipse cx="335" cy="268" rx="120" ry="20" fill="#07120D" fill-opacity=".66"/>
+              <path d="M275 84H392L375 244C373 261 359 273 342 273H323C306 273 293 260 291 243L275 84Z" fill="#CFE3D3" fill-opacity=".27" stroke="#F5F2EB" stroke-opacity=".8" stroke-width="3"/>
+              <path d="M284 181H382L375 245C373 261 359 273 342 273H323C306 273 293 260 291 243L284 181Z" fill="#BD8B5B"/>
+              <path d="M278 139H386L382 182H284L278 139Z" fill="#E9E1CE"/>
+              <path d="M281 137H386L383 161H282L281 137Z" fill="#573623"/>
+              <path d="M389 98H400C419 98 430 112 428 130L424 165C422 182 410 192 385 190" stroke="#F5F2EB" stroke-opacity=".8" stroke-width="3"/>
+              <path d="M331 60C314 45 321 30 335 28M352 64C344 46 353 38 363 33" stroke="#F5F2EB" stroke-opacity=".58" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="254" cy="106" r="3" fill="#E3C96F"/><circle cx="430" cy="72" r="2" fill="#E3C96F"/>
+            </svg>
+            <span class="visual-caption">A little local sweetness</span>
+          </div>
+        </article>
+
+        <article class="feature-row">
+          <div class="feature-copy reveal">
+            <span class="feature-index">03 / Sunset view</span>
+            <h3>Room to <em>look up.</em></h3>
+            <p>Rooftop dan ruang outdoor untuk menikmati udara Ciasihan. Datang menjelang senja, pilih tempat duduk favorit, lalu biarkan sore berjalan sendiri.</p>
+          </div>
+          <div class="feature-visual reveal reveal-delay-1" role="img" aria-label="Ilustrasi pemandangan matahari terbenam di pegunungan">
+            <svg viewBox="0 0 520 330" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="328" cy="112" r="57" fill="#D4AF37" fill-opacity=".88"/>
+              <circle cx="328" cy="112" r="82" stroke="#E3C96F" stroke-opacity=".45"/>
+              <path d="M0 226 103 140 184 203 276 104 372 205 438 139 520 210V330H0V226Z" fill="#14533C"/>
+              <path d="M0 254 119 187 207 231 303 167 397 227 467 190 520 218V330H0V254Z" fill="#0E241B"/>
+              <path d="M0 283C90 258 158 264 235 292C319 322 427 299 520 263" stroke="#D4AF37" stroke-opacity=".55" stroke-width="2"/>
+              <path d="M65 70V110M101 52V99M137 74V115M430 53V100M465 73V118" stroke="#E3C96F" stroke-opacity=".58"/>
+              <circle cx="65" cy="116" r="5" fill="#E3C96F"/><circle cx="101" cy="105" r="5" fill="#E3C96F"/><circle cx="137" cy="121" r="5" fill="#E3C96F"/>
+              <circle cx="430" cy="106" r="5" fill="#E3C96F"/><circle cx="465" cy="124" r="5" fill="#E3C96F"/>
+              <path d="M42 38C70 43 87 53 99 70M391 32C418 38 439 52 451 71" stroke="#F5F2EB" stroke-opacity=".28"/>
+            </svg>
+            <span class="visual-caption">Ciasihan, Bogor · West Java</span>
+          </div>
+        </article>
+
+        <div class="quote-panel reveal">
+          <div class="quote-mark" aria-hidden="true">“</div>
+          <blockquote>Slow afternoons, warm lights, <em>and mountain air.</em></blockquote>
+          <div class="ambience-tags" aria-label="Suasana Koffie Meneer">
+            <span>MOUNTAIN VIEW</span>
+            <span>ROOFTOP & OUTDOOR</span>
+            <span>SUNSET VIBES</span>
+            <span>COZY HANGOUT</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section visit-section" id="visit" aria-labelledby="visitTitle">
+      <div class="section-inner visit-grid">
+        <div class="visit-copy reveal">
+          <div class="section-label"><span></span> Your table is waiting</div>
+          <h2 class="section-heading" id="visitTitle">Come sit with us <em>a while.</em></h2>
+          <p class="visit-lead">Ikuti jalan menuju udara yang lebih sejuk. Kami tunggu di Ciasihan—untuk kopi, cerita, atau sekadar menikmati senja.</p>
+
+          <div class="visit-details">
+            <div class="visit-detail">
+              <span class="visit-icon" aria-hidden="true">⌖</span>
+              <div><strong>Find us</strong><span>Jln. KH. M. Parta, Ciasihan, Bogor, Jawa Barat</span></div>
+            </div>
+            <div class="visit-detail">
+              <span class="visit-icon" aria-hidden="true">◷</span>
+              <div><strong>Opening hours</strong><span>Open from 10:00 AM to 8:00 PM, Everyday</span></div>
+            </div>
+            <div class="visit-detail">
+              <span class="visit-icon" aria-hidden="true">◎</span>
+              <div><strong>Follow along</strong><a href="https://www.instagram.com/koffiemeneer.idn/" target="_blank" rel="noopener noreferrer">@koffiemeneer.idn ↗</a></div>
+            </div>
+          </div>
+
+          <a class="button button-gold" href="https://wa.me/6285810033215?text=Halo%20Koffie%20Meneer%2C%20saya%20ingin%20bertanya%20tentang%20kunjungan%20dan%20reservasi." target="_blank" rel="noopener noreferrer">
+            Hubungi via WhatsApp <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div class="map-frame reveal reveal-delay-1">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d385035.5727950967!2d106.27287912242028!3d-6.692635570430959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69d1fa967650dd%3A0x46ad080dadcef4cb!2sKoffie%20meneer!5e1!3m2!1sid!2sid!4v1794980822990!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Peta lokasi Koffie Meneer"></iframe>
+          <span class="map-caption">Find us in Ciasihan, Bogor</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="brand footer-brand" href="#home" aria-label="Kembali ke atas, Koffie Meneer">
+        <img src="logo.png" alt="">
+        <span class="brand-copy">
+          <strong>KOFFIE MENEER</strong>
+          <small>ESTD. 2025</small>
+        </span>
+      </a>
+      <span class="footer-note">Coffee, mountain air & a little more time. © 2025 KOFFIE MENEER</span>
+      <a class="footer-social" href="https://www.instagram.com/koffiemeneer.idn/" target="_blank" rel="noopener noreferrer">@KOFFIEMENEER.IDN ↗</a>
+    </div>
+  </footer>
+
+  <a class="floating-wa" href="https://wa.me/6285810033215?text=Halo%20Koffie%20Meneer%2C%20saya%20ingin%20bertanya%20tentang%20menu%20dan%20reservasi." target="_blank" rel="noopener noreferrer" aria-label="Hubungi Koffie Meneer melalui WhatsApp">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4.6 19.2 6 15.8A8 8 0 1 1 9 18.1l-4.4 1.1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M9.1 8.2c.5 2.5 2.4 4.5 4.8 5.2l1.2-1.1 2 .9c0 1.2-.9 2.2-2.1 2.2-3.9 0-8.2-4.1-8.2-7.9 0-1.2 1-2.1 2.2-2.1l.9 2-1 0.8Z" fill="currentColor"/>
+    </svg>
+    Chat WhatsApp
+  </a>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var whatsappNumber = "6285810033215";
+      var menuItems = [
+        { name: "Americano", category: "classic", label: "Classic Coffee", tag: "Hot / Ice" },
+        { name: "Cappuccino", category: "classic", label: "Classic Coffee", tag: "Hot / Ice" },
+        { name: "Koffie Latte", category: "classic", label: "Classic Coffee", tag: "Hot / Ice" },
+        { name: "Caramel Latte", category: "classic", label: "Classic Coffee", tag: "Hot / Ice" },
+        { name: "Hazelnut Latte", category: "classic", label: "Classic Coffee", tag: "Hot / Ice" },
+        { name: "Vanilla Latte", category: "classic", label: "Classic Coffee", tag: "Hot / Ice" },
+        { name: "Butterscotch Latte", category: "classic", label: "Classic Coffee", tag: "Hot / Ice" },
+        { name: "Kopi Mistik (Aren)", category: "kopi-mocktail", label: "Kopi Mocktail", tag: "" },
+        { name: "Kopi Susu Meneer", category: "kopi-mocktail", label: "Kopi Mocktail", tag: "Signature" },
+        { name: "Kopi Kelepon", category: "kopi-mocktail", label: "Kopi Mocktail", tag: "" },
+        { name: "Coconut Ice Coffee", category: "kopi-mocktail", label: "Kopi Mocktail", tag: "" },
+        { name: "Strawcaff", category: "kopi-mocktail", label: "Kopi Mocktail", tag: "" },
+        { name: "Kopi Ucuy", category: "kopi-mocktail", label: "Kopi Mocktail", tag: "" },
+        { name: "Tea Mistik", category: "tea-mocktail", label: "Tea Mocktail", tag: "" },
+        { name: "Strawberry Mint Tea", category: "tea-mocktail", label: "Tea Mocktail", tag: "" },
+        { name: "Mojito Ice Tea", category: "tea-mocktail", label: "Tea Mocktail", tag: "" },
+        { name: "Lemon Ice Tea", category: "tea-mocktail", label: "Tea Mocktail", tag: "" },
+        { name: "Lychea Tea", category: "tea-mocktail", label: "Tea Mocktail", tag: "" },
+        { name: "Tea Aero Green (Matcha Latte)", category: "tea-mocktail", label: "Tea Mocktail", tag: "" },
+        { name: "Singkong Goreng Original", category: "snacks", label: "Snacks", tag: "" },
+        { name: "Cireng Rujak", category: "snacks", label: "Snacks", tag: "Placeholder" },
+        { name: "Pisang Bakar", category: "snacks", label: "Snacks", tag: "Placeholder" },
+        { name: "Jagung Susu Keju (JASUKE)", category: "snacks", label: "Snacks", tag: "Placeholder" }
+      ];
+
+      var menuGrid = document.getElementById("menuGrid");
+      var filterButtons = document.querySelectorAll(".filter-button");
+      var revealObserver = null;
+
+      function registerReveals(elements) {
+        if (!("IntersectionObserver" in window)) {
+          elements.forEach(function (element) { element.classList.add("is-visible"); });
+          return;
+        }
+        if (!revealObserver) {
+          revealObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
+        }
+        elements.forEach(function (element) { revealObserver.observe(element); });
+      }
+
+      function renderMenu(category) {
+        var visibleItems = menuItems.filter(function (item) {
+          return category === "all" || item.category === category;
+        });
+
+        menuGrid.innerHTML = visibleItems.map(function (item) {
+          var message = "Halo Koffie Meneer, saya ingin memesan " + item.name + ".";
+          var href = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
+          var tag = item.tag ? '<span class="menu-item-tag">' + item.tag + "</span>" : "";
+          return '<article class="menu-item reveal">' +
+            '<div class="menu-item-main">' +
+              '<div class="menu-item-meta"><span class="menu-item-category">' + item.label + "</span>" + tag + "</div>" +
+              "<h3>" + item.name + "</h3>" +
+              '<span class="menu-item-price">Rp XX.000</span>' +
+            "</div>" +
+            '<a class="menu-order" href="' + href + '" target="_blank" rel="noopener noreferrer" aria-label="Pesan ' + item.name + ' via WhatsApp">' +
+              'Pesan <span aria-hidden="true">↗</span>' +
+            "</a>" +
+          "</article>";
+        }).join("");
+
+        registerReveals(Array.prototype.slice.call(menuGrid.querySelectorAll(".reveal")));
+      }
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          filterButtons.forEach(function (otherButton) {
+            otherButton.setAttribute("aria-pressed", otherButton === button ? "true" : "false");
+          });
+          renderMenu(button.getAttribute("data-filter"));
+        });
+      });
+
+      renderMenu("all");
+      registerReveals(Array.prototype.slice.call(document.querySelectorAll(".reveal")));
+
+      var header = document.getElementById("siteHeader");
+      function updateHeader() {
+        header.classList.toggle("is-scrolled", window.scrollY > 30);
+      }
+      updateHeader();
+      window.addEventListener("scroll", updateHeader, { passive: true });
+
+      var menuToggle = document.getElementById("menuToggle");
+      var mobileMenu = document.getElementById("mobileMenu");
+      function closeMobileMenu() {
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Buka menu navigasi");
+        mobileMenu.classList.remove("is-open");
+      }
+      menuToggle.addEventListener("click", function () {
+        var isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+        menuToggle.setAttribute("aria-expanded", isOpen ? "false" : "true");
+        menuToggle.setAttribute("aria-label", isOpen ? "Buka menu navigasi" : "Tutup menu navigasi");
+        mobileMenu.classList.toggle("is-open", !isOpen);
+      });
+      mobileMenu.querySelectorAll("a[href^='#']").forEach(function (link) {
+        link.addEventListener("click", closeMobileMenu);
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closeMobileMenu();
+      });
+
+      var preloader = document.getElementById("preloader");
+      var loaderDismissed = false;
+      function dismissPreloader() {
+        if (loaderDismissed) return;
+        loaderDismissed = true;
+        preloader.classList.add("is-hidden");
+      }
+      window.addEventListener("load", function () {
+        window.setTimeout(dismissPreloader, 350);
+      });
+      window.setTimeout(dismissPreloader, 2600);
+
+      var heroSection = document.querySelector(".hero");
+      var heroVideo = document.getElementById("heroVideo");
+      var videoSources = heroVideo.querySelectorAll("source");
+      var failedSources = 0;
+
+      videoSources.forEach(function (source) {
+        source.addEventListener("error", function () {
+          failedSources += 1;
+          if (failedSources >= videoSources.length) {
+            heroSection.classList.add("video-unavailable");
+          }
+        });
+      });
+
+      heroVideo.addEventListener("loadeddata", function () {
+        heroSection.classList.remove("video-unavailable");
+        var playPromise = heroVideo.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(function () {});
+        }
+      });
+    }());
+  </script>
+</body>
+</html>
